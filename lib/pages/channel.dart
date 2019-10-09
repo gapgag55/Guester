@@ -30,7 +30,6 @@ class _ChannelPageState extends State<ChannelPage> {
           ),
         ),
         body: Container(
-          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[Threads(), Submit()],

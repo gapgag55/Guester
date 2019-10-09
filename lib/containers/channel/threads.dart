@@ -12,11 +12,18 @@ class _ThreadsState extends State<Threads> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+        child: Container(
+      padding: EdgeInsets.only(
+        top: 20,
+        right: 10,
+        bottom: 10,
+        left: 10,
+      ),
       child: Column(
         children: <Widget>[
           Thread(type: 'text', text: 'Hello', date: '12:00'),
         ],
       ),
-    );
+    ));
   }
 }
