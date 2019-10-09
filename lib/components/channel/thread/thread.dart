@@ -20,11 +20,15 @@ class Thread extends StatelessWidget {
 
     switch (this.type) {
       case 'text':
-        thread = TextMessageLeft(text: text);
+        thread = TextMessageLeft(
+          text: text,
+          avatar: 'assets/images/avatar.jpg',
+        );
         break;
       default:
         thread = TextMessageLeft(
           text: text,
+          avatar: 'assets/images/avatar.jpg',
         );
         break;
     }

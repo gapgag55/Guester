@@ -22,6 +22,10 @@ class TextMessageLeft extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         // Image here
+        // CircleAvatar(
+        //   backgroundImage: ExactAssetImage(avatar),
+        //   radius: 20,
+        // ),
         Container(
             decoration: decorator,
             padding: padding,
