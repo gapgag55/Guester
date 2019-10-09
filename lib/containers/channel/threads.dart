@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../components/thread/thread.dart';
+import 'package:guester/components/channel/thread/thread.dart';
 
 class Threads extends StatefulWidget {
   Threads({Key key}) : super(key: key);
@@ -11,7 +11,6 @@ class Threads extends StatefulWidget {
 class _ThreadsState extends State<Threads> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Expanded(
       child: Column(
         children: <Widget>[

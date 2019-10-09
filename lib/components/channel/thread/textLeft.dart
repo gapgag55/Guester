@@ -9,12 +9,11 @@ class TextMessageLeft extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BoxDecoration decorator = new BoxDecoration(
-      borderRadius: new BorderRadius.only(
-          topRight: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-          bottomLeft: Radius.circular(20)),
-      color: Color(0xffdddddd),
-    );
+        borderRadius: new BorderRadius.only(
+            topRight: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20)),
+        color: Colors.black12);
 
     EdgeInsets padding =
         EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20);

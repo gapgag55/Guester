@@ -12,7 +12,7 @@ class TextMessageRight extends StatelessWidget {
           topLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
           bottomLeft: Radius.circular(20)),
-      color: Color(0xffdddddd),
+      color: Colors.black12,
     );
 
     EdgeInsets padding =

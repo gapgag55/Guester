@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guester/containers/threads.dart';
-import 'package:guester/containers/submit.dart';
+import 'package:guester/containers/channel/threads.dart';
+import 'package:guester/containers/channel/submit.dart';
 
 class ChannelPage extends StatefulWidget {
   ChannelPage({Key key}) : super(key: key);
@@ -22,6 +22,11 @@ class _ChannelPageState extends State<ChannelPage> {
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(
             color: Colors.black, //change your color here
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
           ),
         ),
         body: Container(

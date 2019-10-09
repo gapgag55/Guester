@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:guester/components/thread/textLeft.dart';
-import 'package:guester/components/thread/textRight.dart';
+import 'package:guester/components/channel/thread/textLeft.dart';
+import 'package:guester/components/channel/thread/textRight.dart';
 
 class Thread extends StatelessWidget {
   Thread({
