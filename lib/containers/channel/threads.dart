@@ -21,6 +21,9 @@ class _ThreadsState extends State<Threads> {
   bool loading = true;
   final myUserId = 'UgOVkyBKBUbodalg6RjKKijtlis1';
 
+  ScrollController _scrollController =
+      new ScrollController(initialScrollOffset: position.maxScrollExtent);
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +75,14 @@ class _ThreadsState extends State<Threads> {
       setState(() {
         threads.add(thread);
       });
+
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent + 40,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 300),
+        );
+      }
     });
 
     new Future.delayed(const Duration(seconds: 3), () {
@@ -104,8 +115,10 @@ class _ThreadsState extends State<Threads> {
 
     return Expanded(
         child: Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
+      padding: EdgeInsets.only(left: 20, right: 20),
+      child: new ListView(
+        controller: _scrollController,
+        padding: EdgeInsets.only(top: 20, bottom: 20),
         children: <Widget>[for (var thread in threads) thread],
       ),
     ));
