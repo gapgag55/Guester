@@ -1,28 +1,112 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:guester/components/channel/thread/thread.dart';
 
 class Threads extends StatefulWidget {
-  Threads({Key key}) : super(key: key);
+  Threads({Key key, this.channel}) : super(key: key);
+
+  final String channel;
 
   @override
   _ThreadsState createState() => _ThreadsState();
 }
 
 class _ThreadsState extends State<Threads> {
+  StreamSubscription<Event> databaseReference;
+  List<Thread> threads = [];
+  bool loading = true;
+  final myUserId = 'UgOVkyBKBUbodalg6RjKKijtlis1';
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
+
+    databaseReference = FirebaseDatabase.instance
+        .reference()
+        .child("channels")
+        .child(widget.channel)
+        .onChildAdded
+        .listen((event) async {
+      var data = event.snapshot.value;
+
+      Thread thread;
+
+      if (threads.length > 0 && data['userid'] != myUserId) {
+        if (threads.last.userID == data['userid']) {
+          thread = Thread(
+              userID: data['userid'],
+              text: data['text'],
+              type: data['type'],
+              date: data['datetime'],
+              direction: 'left');
+        } else {
+          var document = await Firestore.instance
+              .collection('users')
+              .document(data['userid'])
+              .get();
+          var fullname = await document.data["name"];
+          thread = Thread(
+              userID: data['userid'],
+              text: data['text'],
+              type: data['type'],
+              date: data['datetime'],
+              avatar: 'assets/images/avatar.jpg',
+              fullname: fullname,
+              direction: 'left');
+        }
+      } else {
+        thread = Thread(
+            userID: data['userid'],
+            text: data['text'],
+            type: data['type'],
+            date: data['datetime'],
+            direction: 'right');
+      }
+
+      setState(() {
+        threads.add(thread);
+      });
+    });
+
+    new Future.delayed(const Duration(seconds: 3), () {
+      setState(() {
+        loading = false;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    databaseReference.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    threads.sort((a, b) {
+      return a.date.compareTo(b.date);
+    });
+
+    if (loading) {
+      return Expanded(
+          child: Container(
+              child: Center(
+                  child: CupertinoActivityIndicator(
+        radius: 10,
+      ))));
+    }
+
     return Expanded(
         child: Container(
-      padding: EdgeInsets.only(
-        top: 20,
-        right: 10,
-        bottom: 10,
-        left: 10,
-      ),
+      padding: EdgeInsets.all(20),
       child: Column(
-        children: <Widget>[
-          Thread(type: 'text', text: 'Hello', date: '12:00'),
-        ],
+        children: <Widget>[for (var thread in threads) thread],
       ),
     ));
   }

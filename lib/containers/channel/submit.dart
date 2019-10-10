@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class Submit extends StatefulWidget {
@@ -8,6 +11,27 @@ class Submit extends StatefulWidget {
 }
 
 class _SubmitState extends State<Submit> {
+  final databaseReference = FirebaseDatabase.instance.reference();
+  final myUserId = 'UgOVkyBKBUbodalg6RjKKijtlis1';
+  var text = TextEditingController();
+
+  void createRecord() {
+    DateTime now = DateTime.now();
+
+    databaseReference
+        .child("channels/practical-software-engineering")
+        .push()
+        .set({
+      'like': 0,
+      'text': text.text,
+      'type': 'text',
+      'userid': myUserId,
+      'datetime': now.toIso8601String()
+    });
+
+    text.text = '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,20 +72,24 @@ class _SubmitState extends State<Submit> {
                 ),
                 new Flexible(
                   child: TextField(
+                    controller: text,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Type a message here'),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Icon(
-                    Icons.send,
-                    color: Colors.black54,
-                    size: 24.0,
-                    semanticLabel: 'Text to announce in accessibility modes',
-                  ),
-                ),
+                    padding: EdgeInsets.only(left: 20),
+                    child: GestureDetector(
+                      onTap: () => createRecord(),
+                      child: Icon(
+                        Icons.send,
+                        color: Colors.black54,
+                        size: 24.0,
+                        semanticLabel:
+                            'Text to announce in accessibility modes',
+                      ),
+                    )),
               ],
             ),
           ),

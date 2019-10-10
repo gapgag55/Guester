@@ -32,7 +32,12 @@ class _ChannelPageState extends State<ChannelPage> {
         body: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[Threads(), Submit()],
+            children: <Widget>[
+              Threads(
+                channel: 'practical-software-engineering',
+              ),
+              Submit()
+            ],
           ),
         ));
   }
