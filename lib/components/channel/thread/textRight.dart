@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TextMessageRight extends StatelessWidget {
-  TextMessageRight({Key key, this.text}) : super(key: key);
+  TextMessageRight({Key key, this.text, this.date}) : super(key: key);
 
   final String text;
+  final String date;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class TextMessageRight extends StatelessWidget {
       children: <Widget>[
         Container(
             padding: EdgeInsets.only(bottom: 5),
-            child: Text('11:57',
+            child: Text(date,
                 style: TextStyle(color: Colors.black87, fontSize: 12))),
         Container(
             decoration: decorator,

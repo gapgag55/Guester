@@ -22,7 +22,7 @@ class _ThreadsState extends State<Threads> {
   final myUserId = 'UgOVkyBKBUbodalg6RjKKijtlis1';
 
   ScrollController _scrollController =
-      new ScrollController(initialScrollOffset: position.maxScrollExtent);
+      new ScrollController(initialScrollOffset: 0);
 
   @override
   void initState() {

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +14,10 @@ class _SubmitState extends State<Submit> {
   var text = TextEditingController();
 
   void createRecord() {
+    if (text.text == '') {
+      return;
+    }
+
     DateTime now = DateTime.now();
 
     databaseReference

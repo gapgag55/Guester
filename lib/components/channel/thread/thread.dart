@@ -37,9 +37,7 @@ class Thread extends StatelessWidget {
         fullname: this.fullname.length > 0 ? this.fullname : '',
       );
     } else {
-      thread = TextMessageRight(
-        text: text,
-      );
+      thread = TextMessageRight(text: text, date: datetime);
     }
 
     return Container(margin: EdgeInsets.only(bottom: 10), child: thread);
