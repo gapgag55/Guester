@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:guester/components/channel/thread/thread.dart';
+import 'package:guester/widgets/channel/thread/thread.dart';
 
 class Threads extends StatefulWidget {
   Threads({Key key, this.channel}) : super(key: key);

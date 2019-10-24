@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'pages/home.dart';
-import 'pages/channel.dart';
+import 'package:guester/pages/chat.screen.dart';
+import 'package:guester/pages/home.screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,8 +12,9 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       initialRoute: '/channel',
       routes: {
-        '/': (context) => HomePage(),
-        '/channel': (context) => ChannelPage(),
+        '/': (context) => HomeScreen(),
+        '/chat': (context) => ChatScreen(),
+        // '/channel': (context) => ChannelPage(),
       },
       debugShowCheckedModeBanner: false,
     );
