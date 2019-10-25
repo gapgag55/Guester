@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:guester/models/message.model.dart';
+import 'package:guester/widgets/thread.dart';
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({Key key}) : super(key: key);
@@ -11,6 +12,30 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+
+  _getMessages() {
+    // Listen Message From Firebase
+
+    // Set Message to messages state
+  }
+
+  _sendMessage() {
+    // Get text
+
+    // Send message to Firebase
+  }
+
+  _buildMessage(Message message, bool isMe) {
+    // return Thread(message: message, isMe: isMe);
+    return Text(message.text);
+  }
+
+  _buildSender() {
+    return Text("Hello");
+  }
+
+  _buidFileSender() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +58,12 @@ class _ChatScreenState extends State<ChatScreen> {
             ListView.builder(
               itemCount: messages.length,
               itemBuilder: (BuildContext context, int index) {
-                return Text(messages[index].text);
+                final Message message = messages[index];
+                final bool isMe = message.sender.id == currentUser.id;
+                return _buildMessage(message, isMe);
               },
-            )
+            ),
+            _buildSender()
           ],
         ),
       ),

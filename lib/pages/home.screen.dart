@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text('Launch screen'),
           onPressed: () {
             // Navigate to the second screen using a named route.
-            Navigator.pushNamed(context, '/channel');
+            Navigator.pushNamed(context, '/chat');
           },
         ),
       ),

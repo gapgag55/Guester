@@ -165,7 +165,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - BoringSSL-GRPC
     - Firebase
     - FirebaseAnalytics
@@ -238,4 +238,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1e47c46073819fc8d40a9deacd256b104fda2fa8
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4
