@@ -10,8 +10,9 @@ class Message {
   final String text;
   final MessageType type;
   final String date;
+  final bool isLoved;
 
-  Message({this.sender, this.text, this.type, this.date});
+  Message({this.sender, this.text, this.type, this.date, this.isLoved});
 }
 
 // Current User
@@ -33,18 +34,28 @@ List<Message> messages = [
     sender: currentUser,
     text: "Hello",
     type: MessageType.text,
-    date: "2019-20-12 13:23:22"
+    date: "2019-20-12 13:23:22",
+    isLoved: false,
   ),
   Message(
     sender: currentUser,
     text: "How are you?",
     type: MessageType.text,
-    date: "2019-20-12 13:23:60"
+    date: "2019-20-12 13:23:60",
+    isLoved: false,
   ),
   Message(
     sender: james,
     text: "Hi! I\'m definitely well.",
     type: MessageType.text,
-    date: "2019-20-12 13:30:10"
+    date: "2019-20-12 13:30:10",
+    isLoved: false,
+  ),
+  Message(
+    sender: currentUser,
+    text: "Hello",
+    type: MessageType.text,
+    date: "2019-20-12 13:23:22",
+    isLoved: false,
   ),
 ];

@@ -1,12 +1,16 @@
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class Sender extends StatelessWidget {
+  _sendMessage() {
+    print("Hello");
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 20, bottom: 30),
+      padding: EdgeInsets.only(left: 20, right: 20),
       child: Container(
         padding: EdgeInsets.only(top: 10, right: 20, bottom: 10, left: 20),
         margin: EdgeInsets.only(bottom: 20),
@@ -41,7 +45,7 @@ class Sender extends StatelessWidget {
             ),
             new Flexible(
               child: TextField(
-                controller: text,
+                // controller: TextEditingController(),
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Type a message here'),
@@ -50,7 +54,7 @@ class Sender extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: GestureDetector(
-                  onTap: () => createRecord(),
+                  onTap: _sendMessage(),
                   child: Icon(
                     Icons.send,
                     color: Colors.black54,

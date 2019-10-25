@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'dart:developer' as developer;
 import 'package:guester/models/message.model.dart';
+import 'package:guester/widgets/FileSender.dart';
 import 'package:guester/widgets/thread.dart';
+import 'package:guester/widgets/sender.dart';
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({Key key}) : super(key: key);
@@ -12,32 +15,33 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  // final _message = TextEditingController();
+  // bool _activeFileSender = false;
 
-  _getMessages() {
-    // Listen Message From Firebase
+  // _getMessages() {
+  //   // Listen Message From Firebase
 
-    // Set Message to messages state
-  }
+  //   // Set Message to messages state
+  // }
 
-  _sendMessage() {
-    // Get text
+  // _sendMessage() {
+  //   // Get text
 
-    // Send message to Firebase
-  }
+  //   // Send message to Firebase
+  // }
 
-  _buildMessage(Message message, bool isMe) {
-    // return Thread(message: message, isMe: isMe);
-    return Text(message.text);
-  }
+  // _openFileSender() {
+  //   // Set state to open file sender
+  //   setState(() {
+  //     _activeFileSender = true;
+  //   });
+  // }
 
-  _buildSender() {
-    return Text("Hello");
-  }
-
-  _buidFileSender() {}
 
   @override
   Widget build(BuildContext context) {
+    developer.log(messages[0].text, name: 'chat.screen.dart');
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.black)),
@@ -53,20 +57,23 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Container(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ListView.builder(
-              itemCount: messages.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Message message = messages[index];
-                final bool isMe = message.sender.id == currentUser.id;
-                return _buildMessage(message, isMe);
-              },
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.all(20),
+                itemCount: messages.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final Message message = messages[index];
+                  final bool isMe = message.sender.id == currentUser.id;
+                  return Thread(message: message, isMe: isMe);
+                },
+              ),
             ),
-            _buildSender()
+            Sender(),
+            FileSender()
           ],
         ),
-      ),
+      )
     );
   }
 }
