@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 import 'package:guester/models/message.model.dart';
@@ -8,21 +11,35 @@ import 'package:guester/widgets/sender.dart';
 class ChatScreen extends StatefulWidget {
   ChatScreen({Key key}) : super(key: key);
 
-  final String title = "Practical Software Engineering";
+  final String channel = "Practical Software Engineering";
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // final _message = TextEditingController();
-  // bool _activeFileSender = false;
+  // List<Message> messages;
+  StreamSubscription<Event> databaseReference;
 
-  // _getMessages() {
-  //   // Listen Message From Firebase
+  _getMessages() {
+    // Listen Message From Firebase
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
 
-  //   // Set Message to messages state
-  // }
+    databaseReference = FirebaseDatabase.instance
+      .reference()
+      .child("channels")
+      .child(widget.channel)
+      .onChildAdded
+      .listen((event) async {
+        // var data = event.snapshot.value;
+        // data['userid']
+        // data['text']
+        // data['type']
+        // data['datetime']
+    });
+
+    // Set Message to messages state
+  }
 
   // _sendMessage() {
   //   // Get text
@@ -44,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.black)),
+        title: Text(widget.channel, style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(
           color: Colors.black,
@@ -70,7 +87,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             Sender(),
-            FileSender()
+            // FileSender()
           ],
         ),
       )
