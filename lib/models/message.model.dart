@@ -2,12 +2,12 @@ import 'package:guester/models/user.model.dart';
 
 class Message {
   final User sender;
-  final String text;
+  final String content;
   final String type;
   final String date;
   final int love;
 
-  Message({this.sender, this.text, this.type, this.date, this.love});
+  Message({this.sender, this.content, this.type, this.date, this.love});
 }
 
 // Current User

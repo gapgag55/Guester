@@ -47,7 +47,7 @@ class Thread extends StatelessWidget {
                   constraints: BoxConstraints(maxWidth: 170),
                   margin: EdgeInsets.only(right: 10),
                   child: Text(
-                    message.text,
+                    message.content,
                     style: TextStyle(color: Colors.black)
                   )
                 ),
@@ -91,7 +91,7 @@ class Thread extends StatelessWidget {
           margin: EdgeInsets.only(left: 10, bottom: 5),
           constraints: BoxConstraints(maxWidth: 170),
           child: Text(
-            message.text,
+            message.content,
             style: TextStyle(color: Colors.white)
           )
         ),
@@ -99,14 +99,24 @@ class Thread extends StatelessWidget {
     );
   }
 
-  _buildThreadFileLeft() {}
+  _buildThreadImageLeft() {}
 
-  _buildThreadFileRight() {}
+  _buildThreadImageRight() {}
 
   @override
   Widget build(BuildContext context) {
     developer.log('Is message of mine?: ' + isMe.toString(), name: 'thred.dart');
 
+    if (message.type == "image") {
+      if (isMe) {
+        return _buildThreadImageRight();
+      } else {
+        return _buildThreadImageLeft();
+      }
+    }
+
+  
+    // Default: Text
     if (isMe) {
       return _buildThreadRight();
     }

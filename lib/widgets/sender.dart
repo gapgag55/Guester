@@ -11,14 +11,15 @@ class Sender extends StatelessWidget {
   // 'senderName': googleSignIn.currentUser.displayName,
   // 'senderPhotoUrl': googleSignIn.currentUser.photoUrl,
 
-  _sendMessage() {
+  Future _sendMessage() async {
     if (inputController.text.isNotEmpty) {
-      FirebaseDatabase.instance.reference()
-      .child("channels")
-      .child("practical-software-engineer")
-      .push()
-      .set({
-        "text": inputController.text,
+      var thread = FirebaseDatabase.instance.reference()
+        .child("channels")
+        .child("practical-software-engineer")
+        .push();
+        
+      thread.set({
+        "content": inputController.text,
         "type": "text",
         "timestamp": DateTime.now().millisecondsSinceEpoch,
         "love": 0,

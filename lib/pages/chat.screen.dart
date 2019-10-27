@@ -1,7 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer' as developer;
 import 'package:guester/models/message.model.dart';
 import 'package:guester/models/user.model.dart';
 import 'package:guester/widgets/FileSender.dart';
@@ -46,9 +45,13 @@ class _ChatScreenState extends State<ChatScreen> {
             avatar: value["avatar"]
           );
 
+          String date = DateFormat('kk:mm')
+            .format(DateTime.fromMillisecondsSinceEpoch(value["timestamp"]))
+            .toString();
+
           Message message = Message(
-            text: value["text"],
-            date: DateFormat('kk:mm').format(DateTime.fromMillisecondsSinceEpoch(value["timestamp"])).toString(),
+            content: value["content"],
+            date: date,
             type: value["type"],
             love: value["love"],
             sender: user,
@@ -94,7 +97,7 @@ class _ChatScreenState extends State<ChatScreen> {
               child: _buildMessages(),
             ),
             Sender(),
-            // FileSender()
+            FileSender()
           ],
         ),
       )
