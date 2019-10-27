@@ -1,12 +1,13 @@
-import 'dart:async';
-
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 import 'package:guester/models/message.model.dart';
+import 'package:guester/models/user.model.dart';
 import 'package:guester/widgets/FileSender.dart';
 import 'package:guester/widgets/thread.dart';
 import 'package:guester/widgets/sender.dart';
+import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({Key key}) : super(key: key);
@@ -18,47 +19,61 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // List<Message> messages;
-  StreamSubscription<Event> databaseReference;
 
-  _getMessages() {
-    // Listen Message From Firebase
-    FirebaseDatabase.instance.setPersistenceEnabled(true);
-
-    databaseReference = FirebaseDatabase.instance
-      .reference()
+  _buildMessages() {
+    var stream = FirebaseDatabase.instance.reference()
       .child("channels")
-      .child(widget.channel)
-      .onChildAdded
-      .listen((event) async {
-        // var data = event.snapshot.value;
-        // data['userid']
-        // data['text']
-        // data['type']
-        // data['datetime']
-    });
+      .child("practical-software-engineer")
+      .orderByChild("timestamp")
+      .limitToLast(10)
+      .onValue;
+  
+    return StreamBuilder(
+      stream: stream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return CupertinoActivityIndicator();
+        }
 
-    // Set Message to messages state
+        Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
+        List<Message> messages = [];
+
+        map.forEach((index, value) {
+          User user = User(
+            id: value["userid"],
+            firstname: value["firstname"],
+            lastname: value["lastname"],
+            avatar: value["avatar"]
+          );
+
+          Message message = Message(
+            text: value["text"],
+            date: DateFormat('kk:mm').format(DateTime.fromMillisecondsSinceEpoch(value["timestamp"])).toString(),
+            type: value["type"],
+            love: value["love"],
+            sender: user,
+          );
+
+          messages.add(message);
+        });
+
+        messages.sort((a, b) => a.date.compareTo(b.date));
+
+        return ListView.builder(
+          padding: EdgeInsets.all(20),
+          itemCount: messages.length,
+          itemBuilder: (context, index) {
+            final Message message = messages[index];
+            final bool isMe = message.sender.id == currentUser.id;
+            return Thread(message: message, isMe: isMe);
+          },
+        );
+      },
+    );
   }
-
-  // _sendMessage() {
-  //   // Get text
-
-  //   // Send message to Firebase
-  // }
-
-  // _openFileSender() {
-  //   // Set state to open file sender
-  //   setState(() {
-  //     _activeFileSender = true;
-  //   });
-  // }
-
 
   @override
   Widget build(BuildContext context) {
-    developer.log(messages[0].text, name: 'chat.screen.dart');
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.channel, style: TextStyle(color: Colors.black)),
@@ -76,15 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.all(20),
-                itemCount: messages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final Message message = messages[index];
-                  final bool isMe = message.sender.id == currentUser.id;
-                  return Thread(message: message, isMe: isMe);
-                },
-              ),
+              child: _buildMessages(),
             ),
             Sender(),
             // FileSender()

@@ -1,10 +1,35 @@
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:guester/models/message.model.dart';
 
 class Sender extends StatelessWidget {
+  TextEditingController inputController = TextEditingController();
+
+  // 'imageUrl': imageUrl,
+  // 'senderName': googleSignIn.currentUser.displayName,
+  // 'senderPhotoUrl': googleSignIn.currentUser.photoUrl,
+
   _sendMessage() {
-    print("Hello");
+    if (inputController.text.isNotEmpty) {
+      FirebaseDatabase.instance.reference()
+      .child("channels")
+      .child("practical-software-engineer")
+      .push()
+      .set({
+        "text": inputController.text,
+        "type": "text",
+        "timestamp": DateTime.now().millisecondsSinceEpoch,
+        "love": 0,
+        "userid": currentUser.id,
+        "firstname": currentUser.firstname,
+        "lastname": currentUser.lastname,
+        "avatar": currentUser.avatar
+      });
+
+      inputController.clear();
+    }
   }
 
   @override
@@ -45,7 +70,7 @@ class Sender extends StatelessWidget {
             ),
             new Flexible(
               child: TextField(
-                // controller: TextEditingController(),
+                controller: inputController,
                 decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: 'Type a message here'),
@@ -54,7 +79,7 @@ class Sender extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(left: 20),
                 child: GestureDetector(
-                  onTap: _sendMessage(),
+                  onTap: () { _sendMessage(); },
                   child: Icon(
                     Icons.send,
                     color: Colors.black54,

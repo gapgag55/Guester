@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 import 'package:guester/models/message.model.dart';
-import 'package:intl/intl.dart';
 
 class Thread extends StatelessWidget {
   final Message message;
@@ -17,7 +16,7 @@ class Thread extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(right: 10),
           child: CircleAvatar(
-            backgroundImage: ExactAssetImage(message.sender.avatar),
+            backgroundImage: NetworkImage(message.sender.avatar),
             radius: 20,
           ),
         ),
@@ -55,7 +54,7 @@ class Thread extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.only(bottom: 10),
                   child: Text(
-                    DateFormat('kk:mm').format(DateTime.parse(message.date)),
+                    message.date,
                     style: TextStyle(color: Colors.black45, fontSize: 10)
                   )
                 )
@@ -75,7 +74,7 @@ class Thread extends StatelessWidget {
         Container(
           padding: EdgeInsets.only(bottom: 10),
           child: Text(
-            DateFormat('kk:mm').format(DateTime.parse(message.date)),
+            message.date,
             style: TextStyle(color: Colors.black45, fontSize: 10)
           )
         ),
