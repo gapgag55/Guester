@@ -1,14 +1,9 @@
 import 'package:guester/models/user.model.dart';
 
-enum MessageType {
-  text,
-  file
-}
-
 class Message {
   final User sender;
   final String text;
-  final MessageType type;
+  final String type;
   final String date;
   final bool isLoved;
 
@@ -17,7 +12,7 @@ class Message {
 
 // Current User
 final User currentUser = User(
-    id: "0",
+    id: "UgOVkyBKBUbodalg6RjKKijtlis1",
     firstname: "Sarayut",
     lastname: "Lawilai",
     avatar: "assets/images/avatar.jpg");
@@ -33,28 +28,28 @@ List<Message> messages = [
   Message(
     sender: currentUser,
     text: "Hello",
-    type: MessageType.text,
+    type: "text",
     date: "2019-20-12 13:23:22",
     isLoved: false,
   ),
   Message(
     sender: currentUser,
     text: "How are you?",
-    type: MessageType.text,
+    type: "text",
     date: "2019-20-12 13:23:60",
     isLoved: false,
   ),
   Message(
     sender: james,
     text: "Hi! I\'m definitely well.",
-    type: MessageType.text,
+    type: "text",
     date: "2019-20-12 13:30:10",
     isLoved: false,
   ),
   Message(
     sender: currentUser,
     text: "Hello",
-    type: MessageType.text,
+    type: "text",
     date: "2019-20-12 13:23:22",
     isLoved: false,
   ),

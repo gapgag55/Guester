@@ -1,12 +1,15 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 import 'package:guester/models/message.model.dart';
-import 'package:guester/widgets/FileSender.dart';
+import 'package:guester/models/user.model.dart';
 import 'package:guester/widgets/thread.dart';
 import 'package:guester/widgets/sender.dart';
+import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
   ChatScreen({Key key}) : super(key: key);
@@ -18,8 +21,13 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  // List<Message> messages;
+  List<Message> messages = [];
   StreamSubscription<Event> databaseReference;
+
+  void initState() {
+    super.initState();
+    _getMessages();
+  }
 
   _getMessages() {
     // Listen Message From Firebase
@@ -28,24 +36,45 @@ class _ChatScreenState extends State<ChatScreen> {
     databaseReference = FirebaseDatabase.instance
       .reference()
       .child("channels")
-      .child(widget.channel)
+      .child("practical-software-engineering")
+      .orderByChild("datetime")
       .onChildAdded
       .listen((event) async {
-        // var data = event.snapshot.value;
-        // data['userid']
-        // data['text']
-        // data['type']
-        // data['datetime']
+        var message = event.snapshot.value;
+        
+        String user = message['userid'];
+        String text = message['text'];
+        String type = message['type'];
+        String date = DateFormat('kk:mm').format(DateTime.parse(message["datetime"]));
+
+        Firestore.instance.collection('users').document(user).get().then((document) {
+          String id = document.documentID;
+          String firstname = document["firstname"];
+          String lastname = document["lastname"];
+
+          // Set Message to messages state
+          setState(() {
+            User user = User(
+              id: id,
+              firstname:
+              firstname,
+              lastname:
+              lastname,
+              avatar: "assets/images/avatar.jpg"
+            );
+
+            Message message = Message(
+              text: text,
+              type: type,
+              date: date,
+              sender: user
+            );
+
+            messages.add(message);
+          });
+        });
     });
-
-    // Set Message to messages state
   }
-
-  // _sendMessage() {
-  //   // Get text
-
-  //   // Send message to Firebase
-  // }
 
   // _openFileSender() {
   //   // Set state to open file sender
@@ -54,10 +83,25 @@ class _ChatScreenState extends State<ChatScreen> {
   //   });
   // }
 
+  _buildThread() {
+    if (messages.isEmpty) {
+      return CupertinoActivityIndicator();
+    }
+
+    return ListView.builder(
+      padding: EdgeInsets.all(20),
+      itemCount: messages.length,
+      itemBuilder: (BuildContext context, int index) {
+        final Message message = messages[index];
+        final bool isMe = message.sender.id == currentUser.id;
+        return Thread(message: message, isMe: isMe);
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    developer.log(messages[0].text, name: 'chat.screen.dart');
 
     return Scaffold(
       appBar: AppBar(
@@ -76,15 +120,7 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: ListView.builder(
-                padding: EdgeInsets.all(20),
-                itemCount: messages.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final Message message = messages[index];
-                  final bool isMe = message.sender.id == currentUser.id;
-                  return Thread(message: message, isMe: isMe);
-                },
-              ),
+              child: _buildThread(),
             ),
             Sender(),
             // FileSender()
